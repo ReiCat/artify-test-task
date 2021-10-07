@@ -29,4 +29,4 @@ Create database:
 
 4. Create .env file and add database dsn 
 
-`$ touch .env && echo "DATABASE_URL=postgresql://artify:artify@localhost:5432/artify" >> .env`
+`$ touch .env && echo "DATABASE_URL=mysql+pymysql://artify:artify@127.0.0.1/artify" >> .env`
