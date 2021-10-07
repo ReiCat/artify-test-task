@@ -29,4 +29,4 @@ Create database:
 
 4. Create .env file and add database dsn 
 
-`$ touch .env && echo "DATABASE_URL=postgresql://eliko:eliko@localhost:5432/eliko" >> .env`
+`$ touch .env && echo "DATABASE_URL=postgresql://artify:artify@localhost:5432/artify" >> .env`
