@@ -11,10 +11,10 @@ run:
 	${PYTHON} main.py
 
 migration:
-	@migrate create --path migrations $(name)
+	@python manage.py script $(name)
 
 migrate-up: 
-	@migrate up --url $(DATABASE_URL) --path migrations
+	@python manage.py upgrade
 
-migrate-down: 
-	@migrate down 1 --url $(DATABASE_URL) --path migrations
+migrate-down:
+	@python manage.py downgrade $(id)

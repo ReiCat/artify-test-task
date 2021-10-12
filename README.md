@@ -27,6 +27,14 @@ Create database:
 
 `$ source venv/bin/activate`
 
-4. Create .env file and add database dsn 
+4. Install all the requirements
+
+`$ pip install -r requirements.txt`
+
+5. Create .env file and add database dsn 
 
 `$ touch .env && echo "DATABASE_URL=mysql+pymysql://artify:artify@127.0.0.1/artify" >> .env`
+
+6. Run migrations 
+
+`$ make migrate-up`
