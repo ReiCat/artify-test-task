@@ -1,5 +1,6 @@
 <template>
   <form class="form" @submit.prevent="submitHandler">
+    <Alert :alert="alert" @close="alert = null" />
     <Name v-model="name" @input="onChange" />
     <Sectors :sectors="sectors" :selected="selectedSectors" @input="onChange" />
     <Terms :isAgreed="isAgreed" />
@@ -12,6 +13,7 @@ import Name from "../components/Name.vue";
 import Sectors from "../components/Sectors.vue";
 import Terms from "../components/Terms.vue";
 import SaveButton from "../components/SaveButton.vue";
+import Alert from "../components/Alert.vue";
 import axios from "axios";
 
 export default {
@@ -21,6 +23,7 @@ export default {
     Sectors,
     Terms,
     SaveButton,
+    Alert,
   },
   data() {
     return {
@@ -30,38 +33,60 @@ export default {
       isAgreed: false,
       isDisabled: true,
       isSaved: false,
+      alert: null,
     };
   },
   methods: {
     async getSectors() {
-      let { data } = await axios.get("/sectors");
-      this.sectors = data;
+      try {
+        let { data } = await axios.get("/sectors");
+        this.sectors = data;
+      } catch (e) {
+        this.alert = {
+          title: "Error",
+          text: e.message,
+        }
+      }
     },
     async getUserData() {
-      let { data } = await axios.get("/user");
-      if (data !== undefined) {
-        this.name = data.name;
-        this.selectedSectors = data.selected_sectors;
-        this.isAgreed = data.agreed_to_terms;
-        this.onChange();
+      try {
+        let { data } = await axios.get("/user");
+        if (data !== undefined) {
+          this.name = data.name;
+          this.selectedSectors = data.selected_sectors;
+          this.isAgreed = data.agreed_to_terms;
+          this.onChange();
+        }
+      } catch (e) {
+        this.alert = {
+          title: "Error",
+          text: e.message,
+        }
       }
     },
     async submitHandler() {
-      const name = document.getElementById("name").value;
-      const selectedSectors = [
-        ...document.getElementById("sectors").selectedOptions,
-        ].map((sector) => sector.value);
-      const isAgreed = document.getElementById("terms").checked;
-      const { data } = await axios.post("/user", {
-        name: name,
-        selectedSectors: selectedSectors,
-        isAgreed: isAgreed,
-      });
-      this.name = data.name;
-      this.selectedSectors = data.selected_sectors;
-      this.isAgreed = data.agreed_to_terms;
-      this.isSaved = true;
-      this.onChange();
+      try {
+        const name = document.getElementById("name").value;
+        const selectedSectors = [
+          ...document.getElementById("sectors").selectedOptions,
+          ].map((sector) => sector.value);
+        const isAgreed = document.getElementById("terms").checked;
+        const { data } = await axios.post("/user", {
+          name: name,
+          selectedSectors: selectedSectors,
+          isAgreed: isAgreed,
+        });
+        this.name = data.name;
+        this.selectedSectors = data.selected_sectors;
+        this.isAgreed = data.agreed_to_terms;
+        this.isSaved = true;
+        this.onChange();
+      } catch (e) {
+        this.alert = {
+          title: "Error",
+          text: e.message,
+        }
+      }
     },
     onChange() {
       if (this.name.length === 0 || this.selectedSectors.length === 0) {
