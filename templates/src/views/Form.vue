@@ -43,12 +43,14 @@ export default {
         this.name = data.name;
         this.selectedSectors = data.selected_sectors;
         this.isAgreed = data.agreed_to_terms;
-        this.onChange()
+        this.onChange();
       }
     },
     async submitHandler() {
       const name = document.getElementById("name").value;
-      const selectedSectors = [...document.getElementById("sectors").selectedOptions].map(sector => sector.value);
+      const selectedSectors = [
+        ...document.getElementById("sectors").selectedOptions,
+        ].map((sector) => sector.value);
       const isAgreed = document.getElementById("terms").checked;
       const { data } = await axios.post("/user", {
         name: name,
@@ -59,15 +61,15 @@ export default {
       this.selectedSectors = data.selected_sectors;
       this.isAgreed = data.agreed_to_terms;
       this.isSaved = true;
-      this.onChange()
+      this.onChange();
     },
     onChange() {
       if (this.name.length === 0 || this.selectedSectors.length === 0) {
-        this.isDisabled = true
+        this.isDisabled = true;
       } else {
-        this.isDisabled = false
+        this.isDisabled = false;
       }
-    }
+    },
   },
   mounted() {
     this.getSectors();

@@ -18,3 +18,6 @@ migrate-up:
 
 migrate-down:
 	@python manage.py downgrade $(id)
+
+templates-build:
+	cd templates && npm run build && cd ..

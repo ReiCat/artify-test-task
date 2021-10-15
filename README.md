@@ -39,6 +39,10 @@ Create database:
 
 `$ make migrate-up`
 
-6. Run the server
+7. Build templates
+
+`$ make templates-build`
+
+8. Run the server
 
 `$ make run`
