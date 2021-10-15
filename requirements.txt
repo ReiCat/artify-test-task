@@ -6,3 +6,4 @@ sqlalchemy-migrate==0.13.0
 SQLAlchemy-Utils==0.37.8
 tornado==6.1
 tornado-sqlalchemy==0.7.0
+uvloop-0.16.0
